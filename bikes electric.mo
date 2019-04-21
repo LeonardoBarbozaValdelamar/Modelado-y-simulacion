@@ -1,0 +1,50 @@
+package bikes
+  partial package modelos
+  end modelos;
+
+  partial package conectores
+  end conectores;
+
+  partial record c1
+    constant Real e = 2.7183, p = 1.23;
+    parameter Real M, vg, G, Cd, A, Vw, Vg;
+  end c1;
+
+  record Tipo1
+      extends c1(M=1, vg=1, G=1, Cd=1, A=1, Vw=1, Vg=1);
+    //definir valores despues
+    annotation(
+      Icon(graphics = {Rectangle(origin = {5, 2}, fillColor = {255, 0, 0}, fillPattern = FillPattern.Solid, extent = {{-33, 30}, {33, -30}})}));
+  end Tipo1;
+
+  model perdidas1
+  Tipo1 tipo11 annotation(
+      Placement(visible = true, transformation(origin = {26, -4}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+   output Real pu, Rw, Vr, Pw;
+  equation
+    pu = 9.81*(tipo1.M)*(tipo1.vg)*(tipo1.G);
+    Vr = (tipo1.Vw)+(tipo1.Vg);
+    Rw = (tipo1.Cd)*(tipo1.p)*(tipo1.A)*(tipo1.Vr)^ 2 / 2;
+  //fuerza
+    Pw = (tipo1.Rw)*(tipo1.Vg);
+  //power consumed in watts
+  end perdidas1;
+
+  record tipo2
+    annotation(
+      Icon(graphics = {Rectangle(origin = {5, 2}, fillColor = {0, 0, 255}, fillPattern = FillPattern.Solid, extent = {{-33, 30}, {33, -30}})}, coordinateSystem(initialScale = 0.1)));
+  end tipo2;
+
+  model pedidas2
+  tipo2 tipo21 annotation(
+      Placement(visible = true, transformation(origin = {-16, 12}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+ output Real pu, Rw, Vr, Pw;
+  equation
+    pu = 9.81*(tipo1.M)*(tipo1.vg)*(tipo1.G);
+    Vr = (tipo1.Vw)+(tipo1.Vg);
+    Rw = (tipo1.Cd)*(tipo1.p)*(tipo1.A)*(tipo1.Vr)^ 2 / 2;
+  //fuerza
+    Pw = (tipo1.Rw)*(tipo1.Vg);
+  //power consumed in watts
+  end pedidas2;
+end bikes;
